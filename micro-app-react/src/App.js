@@ -7,12 +7,16 @@ function App() {
     console.log('micro-react');
     console.log(window.microApp.getData(), 'micro-react init data');
     window.microApp.dispatch({type: '子应用发送的数据 init'})
-    window.microApp.addDataListener((data) => {
+    const dataHandler = (data) => {
       console.log(data, 'micro-react data change');
-    })
+    }
+    window.microApp.addDataListener(dataHandler)
     setTimeout(() => {
       window.microApp.dispatch({type: '子应用发送的数据 update'})
     }, 3000)
+    return () => {
+      window.microApp.removeDataListener(dataHandler)
+    }
   },[])
   return (
     <div className="App">
